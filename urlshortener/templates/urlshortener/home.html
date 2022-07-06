@@ -1,0 +1,67 @@
+{% extends 'urlshortener/base.html' %} 
+
+{% block body %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand mx-3" href="#"><b>Tunzaa</b></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="False" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      {% if user.is_authenticated %}
+      
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Welcome, {{user.username}}</a>
+      </li>
+
+      {% else %}
+
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="card mt-1">
+    <div class="card-header text-center py-3">
+      <h1>Tunzaa url shortener</h1>
+    </div>
+    <div class="px-3 py-4">
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row g-1">
+          <div class="col-sm-6">{{form.long_url}}</div>
+          <div class="col-sm-4 col-lg-2">
+            <button class="btn btn-success btn-lg w-100" type="submit">
+              Shorten url
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% if errors %}
+  <div class="alert alert-danger mt-4" role="alert">
+    <p>{{errors}}</p>
+  </div>
+  {% endif %}
+
+  {% if new_url %}
+
+  <div class="mx-auto text-center mt-5">
+    <h2 class="text-success">The shortened url</h2>
+    <p>follow the link below to go to the actual website</p>
+    <p class="">{{new_url}}</p>
+    <p><span class="text-secondary"><b>Previous URL:</b></span> {{long_url}}</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock body %}
